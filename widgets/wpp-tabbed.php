@@ -98,7 +98,7 @@ class wppTabbedWidget extends WP_Widget
 <div class="wpp-num"></div>
 <div class="wpp-title">{title}</div>
 <div class="wpp-text">{summary}</div>
-<div class="wpp-stats">{stats_short_weekly}</div>
+<div class="wpp-stats">{stats}</div>
 </div></li>',
 		);
 
@@ -110,25 +110,25 @@ class wppTabbedWidget extends WP_Widget
 
 			<ul class="wpptw-tabs">
 				<li class="wpptw-tab-item wpptw-tab-today">
-					<a href="#popular-today"><?php $this->wpp_shortcode('daily', $args); ?></a>
+					<a href="#popular-today"><?php echo $tab1_title; ?></a>
 				</li>
 				<li class="wpptw-tab-item wpptw-tab-weekly">
-					<a href="#popular-weekly"><?php $this->wpp_shortcode('weekly', $args); ?></a>
+					<a href="#popular-weekly"><?php echo $tab2_title; ?></a>
 				</li>
 				<li class="wpptw-tab-item wpptw-tab-monthly">
-					<a href="#popular-monthly"><?php $this->wpp_shortcode('monthly', $args); ?></a>
+					<a href="#popular-monthly"><?php echo $tab3_title; ?></a>
 				</li>
 			</ul>
 
 			<div class="wpptw-content">
-				<div class="wpptw-content-item wpptw-content-today">
-					<?php echo do_shortcode('[wpp limit=5 range=daily post_type=post]'); ?>
+				<div id="popular-today" class="wpptw-content-item wpptw-content-today">
+					<?php $this->wpp_shortcode('daily', $args); ?>
 				</div>
-				<div class="wpptw-content-item wpptw-content-weekly">
-
+				<div id="popular-weekly" class="wpptw-content-item wpptw-content-weekly">
+					<?php $this->wpp_shortcode('weekly', $args); ?>
 				</div>
-				<div class="wpptw-content-item wpptw-content-monthly">
-
+				<div id="popular-monthly" class="wpptw-content-item wpptw-content-monthly">
+					<?php $this->wpp_shortcode('monthly', $args); ?>
 				</div>
 			</div>
 		</div>
