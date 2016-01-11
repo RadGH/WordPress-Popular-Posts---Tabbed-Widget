@@ -1,0 +1,163 @@
+/* Tab Behavior */
+.wpptw-tabs,
+.wpptw-tabs .wpptw-tab-item {
+	display: block;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.wpptw-tabs:after {
+	content: ' ';
+	display: block;
+	clear: both;
+}
+
+.wpptw-tabs .wpptw-tab-item {
+	float: left;
+	width: 33%;
+}
+
+.wpptw-tabs .wpptw-tab-item.wpptw-tab-weekly {
+	width: 34%;
+}
+
+.wpptw-content-item {
+	display: none;
+}
+
+.wpptw-content-item.wpptw-active {
+	display: block;
+}
+
+/* Tab Appearance */
+
+
+/* Content Behavior */
+.wpptw-content .wpp-list {
+	counter-reset: list-num;
+}
+
+.wpptw-content .wpp-list li {
+	counter-increment: list-num;
+}
+
+.wpptw-content .wpp-list .wpp-num:before {
+	content: counter(list-num);
+}
+
+/* Content Appearance */
+.wpptw-content .wpp-list a {
+	text-decoration: none;
+}
+
+.wpptw-content .wpp-list,
+.wpptw-content .wpp-list li {
+	display: block;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.wpptw-content .wpp-list li {
+	position: relative;
+	overflow: hidden;
+
+	margin: 0 0 10px;
+}
+
+.wpptw-content .wpp-list .wpp-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 10;
+
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.wpptw-content .wpp-list .wpp-thumb {
+	position: relative;
+	width: 300px;
+	height: 185px;
+	overflow: hidden;
+}
+
+html.csstransforms .wpptw-content .wpp-list .wpp-thumb img {
+	position: absolute;
+	top: 50%;
+
+	width: 100%;
+	height: auto;
+	min-height: 165px;
+
+	transform: translateY(-50%);
+}
+
+.wpptw-content .wpp-list .wpp-content {
+	position: relative;
+	background: #1e78a0;
+}
+
+.wpptw-content .wpp-num {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+
+	display: block;
+	width: 38px;
+	height: 38px;
+
+	color: #fff;
+	font-size: 20px;
+	line-height: 38px;
+	text-align: center;
+
+	background: #00325a;
+}
+
+.wpptw-content .wpp-stats {
+	margin-left: 38px;
+
+	display: block;
+	padding: 0 10px;
+
+	color: #fff;
+	font-size: 18px;
+	line-height: 38px;
+	text-align: right;
+	text-transform: lowercase;
+}
+
+
+.wpptw-content .wpp-title {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	padding: 10px 10px;
+
+	background: #000;
+	background: rgba(30, 30, 30, 0.75);
+}
+
+.wpptw-content .wpp-title a {
+	color: #fff;
+}
+
+
+.wpptw-content .wpp-list .wpp-thumb img {
+	transition: transform 400ms linear;
+}
+
+.wpptw-content a.wpp-overlay:hover + .wpp-content + .wpp-photo .wpp-thumb img {
+	transform: scale(1.1);
+}
+
+html.csstransforms .wpptw-content a.wpp-overlay:hover + .wpp-content + .wpp-photo .wpp-thumb img {
+	transform: translateY(-50%) scale(1.1);
+}

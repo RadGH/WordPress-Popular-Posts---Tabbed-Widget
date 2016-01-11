@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Popular Posts - Tabbed Widget
 Description: Adds a widget with three tabs to choose between day/week/month of popular posts.
 Plugin URI:  http://www.radgh.com/
-Version:     1.0.0
+Version:     1.0.2
 Author:      Radley Sustaire &lt;radleygh@gmail.com&gt;
 Author URI:  radgh.com
 License:     GPL2
@@ -33,8 +33,10 @@ if( !defined( 'ABSPATH' ) ) exit;
 
 define( 'WPPTW_URL', untrailingslashit(plugin_dir_url( __FILE__ )) );
 define( 'WPPTW_PATH', dirname(__FILE__) );
+define( 'WPPTW_VERSION', '1.0.2' );
 
 add_action( 'plugins_loaded', 'wpptw_initialize', 15 );
+
 
 function wpptw_initialize() {
 	if ( !class_exists('WordpressPopularPosts') ) {
@@ -42,9 +44,12 @@ function wpptw_initialize() {
 		include( WPPTW_PATH . '/widgets/wpp-disabled-placeholder.php' );
 	}else{
 		include( WPPTW_PATH . '/widgets/wpp-tabbed.php' );
+		add_action( 'wp_enqueue_scripts', 'wpptw_enqueue_scripts' );
 	}
 
+	add_action( 'widgets_init', 'wpptw_register_widget' );
 }
+
 
 function wpptw_dependency_warning() {
 	?>
@@ -53,7 +58,13 @@ function wpptw_dependency_warning() {
 	<?php
 }
 
+
 function wpptw_register_widget() {
 	register_widget( 'wppTabbedWidget' );
 }
-add_action( 'widgets_init', 'wpptw_register_widget' );
+
+
+function wpptw_enqueue_scripts() {
+	wp_enqueue_style( 'wpptw', WPPTW_URL . '/assets/wpptw.css', array(), WPPTW_VERSION );
+	wp_enqueue_script( 'wpptw', WPPTW_URL . '/assets/wpptw.js', array('jquery'), WPPTW_VERSION );
+}

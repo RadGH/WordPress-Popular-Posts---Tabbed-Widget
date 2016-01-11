@@ -93,13 +93,15 @@ class wppTabbedWidget extends WP_Widget
 			'wpp_end' => '</ul>',
 			'post_html' => '<li>
 <a href="{url}" class="wpp-overlay"></a>
-<div class="wpp-thumb">{thumb} </div>
 <div class="wpp-content">
 <div class="wpp-num"></div>
-<div class="wpp-title">{title}</div>
-<div class="wpp-text">{summary}</div>
 <div class="wpp-stats">{stats}</div>
-</div></li>',
+</div>
+<div class="wpp-photo">
+<div class="wpp-thumb">{thumb}</div>
+<div class="wpp-title">{title}</div>
+</div>
+</li>',
 		);
 
 		echo $widget['before_widget'];
@@ -109,7 +111,7 @@ class wppTabbedWidget extends WP_Widget
 			<?php if ( $title ) echo $widget['before_title'], esc_html( $title ), $widget['after_title']; ?>
 
 			<ul class="wpptw-tabs">
-				<li class="wpptw-tab-item wpptw-tab-today">
+				<li class="wpptw-tab-item wpptw-tab-today wpptw-active">
 					<a href="#popular-today"><?php echo $tab1_title; ?></a>
 				</li>
 				<li class="wpptw-tab-item wpptw-tab-weekly">
@@ -121,7 +123,7 @@ class wppTabbedWidget extends WP_Widget
 			</ul>
 
 			<div class="wpptw-content">
-				<div id="popular-today" class="wpptw-content-item wpptw-content-today">
+				<div id="popular-today" class="wpptw-content-item wpptw-content-today wpptw-active">
 					<?php $this->wpp_shortcode('daily', $args); ?>
 				</div>
 				<div id="popular-weekly" class="wpptw-content-item wpptw-content-weekly">
