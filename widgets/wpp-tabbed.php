@@ -81,6 +81,7 @@ class wppTabbedWidget extends WP_Widget
 		if ( $count < 1 ) $count = 5;
 
 		$args = array(
+			'post_type' => 'post',
 			'header' => '',
 			'limit' => $count,
 			'thumbnail_width' => get_option( 'thumbnail_size_w', 150 ),
