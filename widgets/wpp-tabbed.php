@@ -99,9 +99,7 @@ class wppTabbedWidget extends WP_Widget
 </div>
 <div class="wpp-photo">
 <div class="wpp-thumb">{thumb}</div>
-<div class="wpp-photo-overlay">
 <div class="wpp-title">{title}</div>
-</div>
 </div>
 </li>',
 		);

@@ -133,7 +133,7 @@ html.csstransforms .wpptw-content .wpp-list .wpp-thumb img {
 }
 
 
-.wpptw-content .wpp-photo-overlay {
+.wpptw-content .wpp-title {
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -145,19 +145,6 @@ html.csstransforms .wpptw-content .wpp-list .wpp-thumb img {
 	background: rgba(30, 30, 30, 0.75);
 }
 
-.wpptw-content .wpp-photo-overlay a {
+.wpptw-content .wpp-title a {
 	color: #fff;
-}
-
-
-.wpptw-content .wpp-list .wpp-thumb img {
-	transition: transform 400ms linear;
-}
-
-.wpptw-content a.wpp-overlay:hover + .wpp-content + .wpp-photo .wpp-thumb img {
-	transform: scale(1.1);
-}
-
-html.csstransforms .wpptw-content a.wpp-overlay:hover + .wpp-content + .wpp-photo .wpp-thumb img {
-	transform: translateY(-50%) scale(1.1);
 }
