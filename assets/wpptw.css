@@ -133,7 +133,7 @@ html.csstransforms .wpptw-content .wpp-list .wpp-thumb img {
 }
 
 
-.wpptw-content .wpp-title {
+.wpptw-content .wpp-photo-overlay {
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -145,7 +145,7 @@ html.csstransforms .wpptw-content .wpp-list .wpp-thumb img {
 	background: rgba(30, 30, 30, 0.75);
 }
 
-.wpptw-content .wpp-title a {
+.wpptw-content .wpp-photo-overlay a {
 	color: #fff;
 }
 
