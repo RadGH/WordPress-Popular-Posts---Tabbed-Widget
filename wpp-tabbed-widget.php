@@ -4,8 +4,8 @@ Plugin Name: Wordpress Popular Posts - Tabbed Widget
 Description: Adds a widget with three tabs to choose between day/week/month of popular posts.
 Plugin URI:  http://www.radgh.com/
 Version:     1.0.2
-Author:      Radley Sustaire &lt;radleygh@gmail.com&gt;
-Author URI:  radgh.com
+Author:      Radley Sustaire
+Author URI:  mailto:radleygh@gmail.com
 License:     GPL2
 */
 
