@@ -3,6 +3,8 @@
 class wppTabbedWidget extends WP_Widget
 {
 
+	public $number_of_tabs = 3;
+
 	// Register widget with WordPress.
 	public function __construct() {
 		parent::__construct( 'wppTabbedWidget', // Base ID
@@ -63,7 +65,7 @@ class wppTabbedWidget extends WP_Widget
 			$sc .= " ";
 		}
 
-//		$sc = substr($sc, -1);
+		//		$sc = substr($sc, -1);
 
 		$sc .= ']';
 
@@ -73,10 +75,20 @@ class wppTabbedWidget extends WP_Widget
 	// Front-end display of widget.
 	public function widget( $widget, $instance ) {
 		$title = !empty( $instance['title'] ) ? apply_filters( 'widget_title', $instance['title'] ) : '';
-		$tab1_title = $instance['tab1-title'];
-		$tab2_title = $instance['tab2-title'];
-		$tab3_title = $instance['tab3-title'];
 		$count = (int) $instance['count'];
+
+		$tabs = array();
+
+		for ( $i = 1; $i <= $this->number_of_tabs; $i++ ) {
+			if ( empty($instance['tab'. $i .'-type']) ) continue;
+
+			$tabs[$i] = array(
+				'title' => $instance['tab'. $i .'-title'],
+				'type' => $instance['tab'. $i .'-type'],
+			);
+		}
+
+		if ( empty($tabs) ) return;
 
 		if ( $count < 1 ) $count = 5;
 
@@ -112,27 +124,19 @@ class wppTabbedWidget extends WP_Widget
 			<?php if ( $title ) echo $widget['before_title'], esc_html( $title ), $widget['after_title']; ?>
 
 			<ul class="wpptw-tabs">
-				<li class="wpptw-tab-item wpptw-tab-today wpptw-active">
-					<a href="#popular-today"><?php echo $tab1_title; ?></a>
-				</li>
-				<li class="wpptw-tab-item wpptw-tab-weekly">
-					<a href="#popular-weekly"><?php echo $tab2_title; ?></a>
-				</li>
-				<li class="wpptw-tab-item wpptw-tab-monthly">
-					<a href="#popular-monthly"><?php echo $tab3_title; ?></a>
-				</li>
+				<?php foreach( $tabs as $i => $tab ) { ?>
+					<li class="wpptw-tab-item wpptw-tab-<?php echo esc_attr($tab['type']); ?> wpptw-tab-num-<?php echo esc_attr($i); ?> wpptw-active">
+						<a href="#popular-<?php echo esc_attr($i); ?>"><?php echo esc_html($tab['title']); ?></a>
+					</li>
+				<?php } ?>
 			</ul>
 
 			<div class="wpptw-content">
-				<div id="popular-today" class="wpptw-content-item wpptw-content-today wpptw-active">
-					<?php $this->wpp_shortcode('daily', $args); ?>
-				</div>
-				<div id="popular-weekly" class="wpptw-content-item wpptw-content-weekly">
-					<?php $this->wpp_shortcode('weekly', $args); ?>
-				</div>
-				<div id="popular-monthly" class="wpptw-content-item wpptw-content-monthly">
-					<?php $this->wpp_shortcode('monthly', $args); ?>
-				</div>
+				<?php foreach( $tabs as $i => $tab ) { ?>
+					<div id="popular-<?php echo esc_attr($i); ?>" class="wpptw-content-item wpptw-content-<?php echo esc_attr($tab['type']); ?> <?php if ( $i == 1 ) echo 'wpptw-active'; ?>">
+						<?php $this->wpp_shortcode($tab['type'], $args); ?>
+					</div>
+				<?php } ?>
 			</div>
 		</div>
 		<?php
@@ -144,12 +148,12 @@ class wppTabbedWidget extends WP_Widget
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
 		$instance['title'] = strip_tags( $new_instance['title'] );
-
-		$instance['tab1-title'] = strip_tags( $new_instance['tab1-title'] );
-		$instance['tab2-title'] = strip_tags( $new_instance['tab2-title'] );
-		$instance['tab3-title'] = strip_tags( $new_instance['tab3-title'] );
-
 		$instance['count'] = (int) $new_instance['count'];
+
+		for ( $i = 1; $i <= $this->number_of_tabs; $i++ ) {
+			$instance['tab'. $i .'-title'] = strip_tags( $new_instance['tab'. $i .'-title'] );
+			$instance['tab'. $i .'-type'] = strip_tags( $new_instance['tab'. $i .'-type'] );
+		}
 
 		return $instance;
 	}
@@ -159,13 +163,13 @@ class wppTabbedWidget extends WP_Widget
 		// Retrieve all of our fields from the $instance variable
 		$fields = array(
 			'title',
-
-			'tab1-title',
-			'tab2-title',
-			'tab3-title',
-
 			'count',
 		);
+
+		for( $i = 1; $i <= $this->number_of_tabs; $i++ ) {
+			$fields[] = 'tab'. $i .'-title';
+			$fields[] = 'tab'. $i .'-type';
+		}
 
 		// Format each field's data into an array
 		foreach ( $fields as $name ) {
@@ -182,52 +186,56 @@ class wppTabbedWidget extends WP_Widget
 
 		// Display the widget fields
 		?>
-
 		<p>
-			<label for="<?php echo esc_attr( $fields['title']['id'] ); ?>"><?php _e( 'Title:' ); ?></label>
+			<label for="<?php echo esc_attr( $fields['title']['id'] ); ?>"><strong><?php _e( 'Widget Title:' ); ?></strong></label>
 			<input class="widefat" type="text"
-		       id="<?php echo esc_attr( $fields['title']['id'] ); ?>"
-		       name="<?php echo esc_attr( $fields['title']['name'] ); ?>"
-		       value="<?php echo esc_attr( $fields['title']['value'] ); ?>" />
+			       id="<?php echo esc_attr( $fields['title']['id'] ); ?>"
+			       name="<?php echo esc_attr( $fields['title']['name'] ); ?>"
+			       value="<?php echo esc_attr( $fields['title']['value'] ); ?>" />
 		</p>
 
 		<p>
-			<label for="<?php echo esc_attr( $fields['tab1-title']['id'] ); ?>"><?php _e( 'Tab Titles:' ); ?></label>
-
-			<label for="<?php echo esc_attr( $fields['tab1-title']['id'] ); ?>" class="screen-reader-text">Tab 1 Title</label>
-			<input class="widefat" type="text"
-		       placeholder="Today"
-		       id="<?php echo esc_attr( $fields['tab1-title']['id'] ); ?>"
-		       name="<?php echo esc_attr( $fields['tab1-title']['name'] ); ?>"
-		       value="<?php echo esc_attr( $fields['tab1-title']['value'] ); ?>" />
-		</p>
-
-		<p>
-			<label for="<?php echo esc_attr( $fields['tab2-title']['id'] ); ?>" class="screen-reader-text">Tab 2 Title</label>
-			<input class="widefat" type="text"
-		       placeholder="Weekly"
-		       id="<?php echo esc_attr( $fields['tab2-title']['id'] ); ?>"
-		       name="<?php echo esc_attr( $fields['tab2-title']['name'] ); ?>"
-		       value="<?php echo esc_attr( $fields['tab2-title']['value'] ); ?>" /> <br>
-		</p>
-
-		<p>
-			<label for="<?php echo esc_attr( $fields['tab3-title']['id'] ); ?>" class="screen-reader-text">Tab 3 Title</label>
-			<input class="widefat" type="text"
-		       placeholder="Monthly"
-		       id="<?php echo esc_attr( $fields['tab3-title']['id'] ); ?>"
-		       name="<?php echo esc_attr( $fields['tab3-title']['name'] ); ?>"
-		       value="<?php echo esc_attr( $fields['tab3-title']['value'] ); ?>" />
-		</p>
-
-		<p>
-			<label for="<?php echo esc_attr( $fields['count']['id'] ); ?>"><?php _e( 'Show up to:' ); ?></label> <br>
+			<label for="<?php echo esc_attr( $fields['count']['id'] ); ?>"><strong><?php _e( 'Posts per tab:' ); ?></strong></label> <br>
 			<input class="widefat" type="number" style="width: 50px;"
 			       id="<?php echo esc_attr( $fields['count']['id'] ); ?>"
 			       name="<?php echo esc_attr( $fields['count']['name'] ); ?>"
-			       value="<?php echo esc_attr( $fields['count']['value'] ); ?>" /> posts
+			       value="<?php echo esc_attr( $fields['count']['value'] ); ?>" />
 		</p>
+
 		<?php
+		for ( $i = 1; $i <= $this->number_of_tabs; $i++ ) {
+			?>
+			<p>
+				<label for="<?php echo esc_attr( $fields['tab'. $i .'-title']['id'] ); ?>"><strong>Tab #<?php echo $i; ?>:</strong></label>
+			</p>
+
+			<p>
+				<table style="margin-top: -10px;">
+					<tbody>
+					<tr>
+						<td><label for="<?php echo esc_attr( $fields['tab'. $i .'-title']['id'] ); ?>">Title</label></td>
+						<td><input class="small" type="text"
+						           id="<?php echo esc_attr( $fields['tab'. $i .'-title']['id'] ); ?>"
+						           name="<?php echo esc_attr( $fields['tab'. $i .'-title']['name'] ); ?>"
+						           value="<?php echo esc_attr( $fields['tab'. $i .'-title']['value'] ); ?>" /></td>
+					</tr>
+					<tr>
+						<td><label for="<?php echo esc_attr( $fields['tab'. $i .'-type']['id'] ); ?>">Range</label></td>
+						<td><select class="small"
+						            id="<?php echo esc_attr( $fields['tab'. $i .'-type']['id'] ); ?>"
+						            name="<?php echo esc_attr( $fields['tab'. $i .'-type']['name'] ); ?>">
+								<option value="">&ndash; Disabled &ndash;</option>
+								<option value="daily" <?php selected($fields['tab'. $i .'-type']['value'], "daily"); ?>>Daily</option>
+								<option value="weekly" <?php selected($fields['tab'. $i .'-type']['value'], "weekly"); ?>>7 Days</option>
+								<option value="monthly" <?php selected($fields['tab'. $i .'-type']['value'], "monthly"); ?>>30 Days</option>
+								<option value="all" <?php selected($fields['tab'. $i .'-type']['value'], "all"); ?>>All Time</option>
+							</select></td>
+					</tr>
+					</tbody>
+				</table>
+			</p>
+			<?php
+		}
 	}
 
 } // class wppTabbedWidget

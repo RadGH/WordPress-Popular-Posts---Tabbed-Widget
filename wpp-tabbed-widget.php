@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Wordpress Popular Posts - Tabbed Widget
-Description: Adds a widget with three tabs to choose between day/week/month of popular posts.
+Description: Adds a widget with three tabs able to display day/week/month/all time of popular posts.
 Plugin URI:  http://www.radgh.com/
-Version:     1.0.2
+Version:     1.1.0
 Author:      Radley Sustaire
 Author URI:  mailto:radleygh@gmail.com
 License:     GPL2
@@ -12,7 +12,7 @@ License:     GPL2
 /*
 GNU GENERAL PUBLIC LICENSE
 
-Adds a widget with three tabs to choose between day/week/month of popular posts.
+Adds a widget with three tabs able to display day/week/month/all time of popular posts.
 Copyright (C) 2015 Radley Sustaire
 
 This program is free software: you can redistribute it and/or modify
@@ -53,8 +53,10 @@ function wpptw_initialize() {
 
 function wpptw_dependency_warning() {
 	?>
-	<p><strong>Wordpress Popular Posts - Tabbed Widget: Warning</strong></p>
-	<p>The plugin <a href="https://wordpress.org/plugins/wordpress-popular-posts/" target="_blank" rel="external">WordPress Popular Posts</a> is not installed or inactive. The tabbed widget will not appear until this dependency is activated.</p>
+	<div class="error">
+		<p><strong>Wordpress Popular Posts - Tabbed Widget: Warning</strong></p>
+		<p>The plugin <a href="https://wordpress.org/plugins/wordpress-popular-posts/" target="_blank" rel="external">WordPress Popular Posts</a> is not installed or inactive. The tabbed widget will not appear until this dependency is activated.</p>
+	</div>
 	<?php
 }
 
